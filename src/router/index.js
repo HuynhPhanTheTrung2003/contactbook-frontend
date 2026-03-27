@@ -3,14 +3,24 @@ import ContactBook from "@/views/ContactBook.vue";
 
 const routes = [
   {
+    path: "/login",
+    name: "login",
+    component: () => import("@/views/Login.vue"),
+  },
+  {
+    path: "/register",
+    name: "register",
+    component: () => import("@/views/Register.vue"),
+  },
+  {
     path: "/",
     name: "contactbook",
     component: ContactBook,
   },
   {
-    path: "/:pathMatch(.*)*",
-    name: "notfound",
-    component: () => import("@/views/NotFound.vue"),
+    path: "/add",
+    name: "contact.add",
+    component: () => import("@/views/ContactAdd.vue"),
   },
   {
     path: "/contacts/:id",
@@ -19,14 +29,14 @@ const routes = [
     props: true,
   },
   {
-    path: "/add",
-    name: "contact.add",
-    component: () => import("@/views/ContactAdd.vue"),
+    path: "/:pathMatch(.*)*",
+    name: "notfound",
+    component: () => import("@/views/NotFound.vue"),
   },
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 });
 
