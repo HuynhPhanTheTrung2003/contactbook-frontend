@@ -39,7 +39,11 @@
           Chi tiết Liên hệ
           <i class="fas fa-address-card"></i>
         </h4>
-        <ContactCard :contact="activeContact" />
+        <ContactCard
+          v-if="activeContact"
+          :contact="activeContact"
+          @update:contact="updateActiveContactHobbies"
+        />
         <router-link
           :to="{
             name: 'contact.edit',
@@ -131,12 +135,20 @@ export default {
         }
       }
     },
-
     goToAddContact() {
       this.$router.push({ name: "contact.add" });
     },
+    async updateActiveContactHobbies(updatedContact) {
+      try {
+        console.log("Dữ liệu gửi đi:", updatedContact);
+        await ContactService.update(updatedContact._id, updatedContact);
+        this.contacts = await ContactService.getAll();
+        console.log("Đã lưu vào Database vĩnh viễn!");
+      } catch (error) {
+        console.error("Lỗi lưu hobbies:", error);
+      }
+    },
   },
-
   mounted() {
     this.refreshList();
   },
